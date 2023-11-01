@@ -7,6 +7,6 @@
 #include <sys/wait.h>
 #include <string.h>
 
-void prompt(char **env);
+void prompt(char **av, char **env);
 
 #endif

@@ -32,6 +32,11 @@ void prompt(char **av, char **env)
         {
             argv[++j] = strtok(NULL, " ");
         }
+	if (strcmp(argv[0], "exit") == 0)
+        {
+            free(string);
+            exit(EXIT_SUCCESS);
+        }
         if (access(argv[0], X_OK) == 0)
         {
             child_pid = fork();
