@@ -28,6 +28,10 @@ void prompt(char **av, char **env)
         }
         j = 0;
         argv[j] = strtok(string, " ");
+	if (argv[j] == NULL)
+	{
+		continue;
+	}
         while (argv[j])
         {
             argv[++j] = strtok(NULL, " ");
@@ -37,16 +41,19 @@ void prompt(char **av, char **env)
             free(string);
             exit(EXIT_SUCCESS);
         }
-        if (access(argv[0], X_OK) == 0)
+        else if (strcmp(argv[0], "env") == 0)
+        {
+            print_environment(env);
+        }
+	else if (access(argv[0], X_OK) == 0)
         {
             child_pid = fork();
-
             if (child_pid == -1)
             {
                 free(string);
                 exit(EXIT_FAILURE);
             }
-            if (child_pid == 0)
+	    else if (child_pid == 0)
             {
                 if (execve(argv[0], argv, env) == -1)
                 {
