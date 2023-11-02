@@ -45,6 +45,34 @@ void prompt(char **av, char **env)
         {
             print_environment(env);
         }
+	else if (strcmp(argv[0], "setenv") == 0)
+        {
+            if (j < 3)
+            {
+                fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+            }
+            else
+            {
+                if (setenv(argv[1], argv[2], 1) == -1)
+                {
+                    perror("setenv");
+                }
+            }
+        }
+	else if (strcmp(argv[0], "unsetenv") == 0)
+        {
+            if (j < 2)
+            {
+                fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+            }
+            else
+            {
+                if (unsetenv(argv[1]) == -1)
+                {
+                    perror("unsetenv");
+                }
+            }
+        }
 	else if (access(argv[0], X_OK) == 0)
         {
             child_pid = fork();
