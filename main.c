@@ -2,7 +2,6 @@
 /**
  * main - An integer
  * @ac: Another integer
- * @av: A character
  * @env: Another character
  * Return: Always (0)
  */
