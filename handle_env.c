@@ -1,9 +1,9 @@
 #include "Functions.h"
 /**
- * print_environment - A void
+ * handle_env - A void
  * @env: A character
  */
-void print_environment(char **env)
+void handle_env(char **env)
 {
 	int i = 0;
 
