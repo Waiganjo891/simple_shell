@@ -1,12 +1,14 @@
 #include "Functions.h"
 /**
  * prompt - A void
- * @av: A character
  * @env: Another character
  */
-void prompt(char **av, char **env)
+void prompt(char **env)
 {
 	char *string = NULL, *argv[FUNCTION_H];
+	pid_t child_pid;
+	int status;
+	char filepath[1024], *path, *path_copy, *directory;
 	int i, j;
 	size_t n = 0;
 	ssize_t num_char;
@@ -45,9 +47,41 @@ void prompt(char **av, char **env)
 			handle_setenv(argv);
 		else if (strcmp(argv[0], "unsetenv") == 0)
 			handle_unsetenv(argv);
-		else if (access(argv[0], X_OK) == 0)
-			execute_command(argv, env);
 		else
-			printf("%s: No such file or directory\n", av[0]);
+		{
+			path = getenv("PATH");
+			path_copy = strdup(path);
+			directory = strtok(path_copy, ":");
+			 while (directory)
+			 {
+				 snprintf(filepath, "%s/%s", directory, argv[0]);
+				 if (access(filepath, X_OK) == 0)
+				 {
+					 child_pid = fork();
+					 if (child_pid == -1)
+					 {
+						 free(string);
+						 exit(EXIT_FAILURE);
+					 }
+					  else if (child_pid == 0)
+					  {
+						  if (execve(filepath, argv, env) == -1)
+						  {
+							  perror("execve");
+							  exit(EXIT_FAILURE);
+						  }
+					  }
+					  else
+						  wait(&status);
+					   break;
+				 }
+				 directory = strtok(NULL, ":");
+			 }
+			 free(path_copy);
+		}
+		if (!directory)
+		{
+			printf("%s: No such file or directory\n", argv[0]);
+		}
 	}
 }
