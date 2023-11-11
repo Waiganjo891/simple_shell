@@ -49,39 +49,70 @@ void prompt(char **env)
 			handle_unsetenv(argv);
 		else
 		{
-			path = getenv("PATH");
-			path_copy = strdup(path);
-			directory = strtok(path_copy, ":");
-			 while (directory)
-			 {
-				 snprintf(filepath, "%s/%s", directory, argv[0]);
-				 if (access(filepath, X_OK) == 0)
-				 {
-					 child_pid = fork();
-					 if (child_pid == -1)
-					 {
-						 free(string);
-						 exit(EXIT_FAILURE);
-					 }
-					  else if (child_pid == 0)
-					  {
-						  if (execve(filepath, argv, env) == -1)
-						  {
-							  perror("execve");
-							  exit(EXIT_FAILURE);
-						  }
-					  }
-					  else
-						  wait(&status);
-					   break;
-				 }
-				 directory = strtok(NULL, ":");
-			 }
-			 free(path_copy);
+			if (argv[0][0] == '/')
+			{
+				if (access(argv[0], X_OK) == 0)
+				{
+					child_pid = fork();
+					if (child_pid == -1)
+					{
+						free(string);
+						exit(EXIT_FAILURE);
+					}
+					else if (child_pid == 0)
+					{
+						if (execve(argv[0], argv, env) == -1)
+						{
+							perror("execve");
+							exit(EXIT_FAILURE);
+						}
+					}
+					else
+						wait(&status);
+				}
+				else
+				{
+					printf("%s: No such file or directory\n", argv[0]);
+				}
+			}
+			else
+			{
+				{
+				path = getenv("PATH");
+				path_copy = strdup(path);
+				directory = strtok(path_copy, ":");
+				while (directory)
+				{
+					sprintf(filepath, "%s/%s", directory, argv[0]);
+					if (access(filepath, X_OK) == 0)
+					{
+						child_pid = fork();
+						if (child_pid == -1)
+						{
+							free(string);
+							exit(EXIT_FAILURE);
+						}
+						else if (child_pid == 0)
+						{
+							if (execve(filepath, argv, env) == -1)
+							{
+								perror("execve");
+								exit(EXIT_FAILURE);
+							}
+						}
+						else
+							wait(&status);
+						break;
+					}
+					directory = strtok(NULL, ":");
+				}
+				free(path_copy);
+			}
+			if (!directory)
+			{
+				printf("%s: No such file or directory\n", argv[0]);
+			}
 		}
-		if (!directory)
-		{
-			printf("%s: No such file or directory\n", argv[0]);
 		}
 	}
 }
