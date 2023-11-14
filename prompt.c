@@ -9,7 +9,7 @@ void prompt(char **env)
 	pid_t child_pid;
 	int status;
 	char filepath[1024], *path, *path_copy, *directory;
-	int i, j;
+	int i, j, a;
 	size_t n = 0;
 	ssize_t num_char;
 
@@ -42,7 +42,15 @@ void prompt(char **env)
 			exit(EXIT_SUCCESS);
 		}
 		else if (strcmp(argv[0], "env") == 0)
-			handle_env(env);
+		{
+			a = 0;
+
+			while (env[a] != NULL)
+			{
+				printf("%s\n", env[a]);
+				a++;
+			}
+		}
 		else if (strcmp(argv[0], "setenv") == 0)
 			handle_setenv(argv);
 		else if (strcmp(argv[0], "unsetenv") == 0)
@@ -112,7 +120,7 @@ void prompt(char **env)
 			{
 				printf("%s: No such file or directory\n", argv[0]);
 			}
-		}
+			}
 		}
 	}
 }
