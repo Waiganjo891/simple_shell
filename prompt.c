@@ -6,9 +6,6 @@
 void prompt(char **env)
 {
 	char *string = NULL, *argv[FUNCTION_H];
-	pid_t child_pid;
-	int status;
-	char filepath[1024], *path, *path_copy, *directory;
 	int i, j;
 	size_t n = 0;
 	ssize_t num_char;
@@ -50,69 +47,9 @@ void prompt(char **env)
 		else
 		{
 			if (argv[0][0] == '/')
-			{
-				if (access(argv[0], X_OK) == 0)
-				{
-					child_pid = fork();
-					if (child_pid == -1)
-					{
-						free(string);
-						exit(EXIT_FAILURE);
-					}
-					else if (child_pid == 0)
-					{
-						if (execve(argv[0], argv, env) == -1)
-						{
-							perror("execve");
-							exit(EXIT_FAILURE);
-						}
-					}
-					else
-						wait(&status);
-				}
-				else
-				{
-					printf("%s: No such file or directory\n", argv[0]);
-				}
-			}
+				execute_absolute_path(argv, env);
 			else
-			{
-				{
-				path = getenv("PATH");
-				path_copy = strdup(path);
-				directory = strtok(path_copy, ":");
-				while (directory)
-				{
-					sprintf(filepath, "%s/%s", directory, argv[0]);
-					if (access(filepath, X_OK) == 0)
-					{
-						child_pid = fork();
-						if (child_pid == -1)
-						{
-							free(string);
-							exit(EXIT_FAILURE);
-						}
-						else if (child_pid == 0)
-						{
-							if (execve(filepath, argv, env) == -1)
-							{
-								perror("execve");
-								exit(EXIT_FAILURE);
-							}
-						}
-						else
-							wait(&status);
-						break;
-					}
-					directory = strtok(NULL, ":");
-				}
-				free(path_copy);
-			}
-			if (!directory)
-			{
-				printf("%s: No such file or directory\n", argv[0]);
-			}
-			}
+				execute_relative_path(argv, env);
 		}
 	}
 }
