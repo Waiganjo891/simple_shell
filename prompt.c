@@ -9,7 +9,7 @@ void prompt(char **env)
 	pid_t child_pid;
 	int status;
 	char filepath[1024], *path, *path_copy, *directory;
-	int i, j, a;
+	int i, j;
 	size_t n = 0;
 	ssize_t num_char;
 
@@ -42,15 +42,7 @@ void prompt(char **env)
 			exit(EXIT_SUCCESS);
 		}
 		else if (strcmp(argv[0], "env") == 0)
-		{
-			a = 0;
-
-			while (env[a] != NULL)
-			{
-				printf("%s\n", env[a]);
-				a++;
-			}
-		}
+			handle_env(env);
 		else if (strcmp(argv[0], "setenv") == 0)
 			handle_setenv(argv);
 		else if (strcmp(argv[0], "unsetenv") == 0)
