@@ -1,14 +1,17 @@
-#include "Functions.h"
+#include "shell.h"
 /**
  * prompt - A void
+ * @av: A character
  * @env: Another character
  */
-void prompt(char **env)
+void prompt(char **av, char **env)
 {
-	char *string = NULL, *argv[FUNCTION_H];
-	int i, j;
+	char *string = NULL;
+	int i, j, a, status;
 	size_t n = 0;
 	ssize_t num_char;
+	char *argv[FUNCTION_H];
+	pid_t child_pid;
 
 	while (1)
 	{
@@ -29,27 +32,41 @@ void prompt(char **env)
 		}
 		j = 0;
 		argv[j] = strtok(string, " ");
-		if (argv[j] == NULL)
-			continue;
 		while (argv[j])
+		{
 			argv[++j] = strtok(NULL, " ");
-		if (strcmp(argv[0], "exit") == 0)
 		{
-			free(string);
-			exit(EXIT_SUCCESS);
-		}
-		else if (strcmp(argv[0], "env") == 0)
-			handle_env(env);
-		else if (strcmp(argv[0], "setenv") == 0)
-			handle_setenv(argv);
-		else if (strcmp(argv[0], "unsetenv") == 0)
-			handle_unsetenv(argv);
-		else
-		{
-			if (argv[0][0] == '/')
-				execute_absolute_path(argv, env);
+			if (strcmp(argv[0], "env") == 0)
+			{
+				a = 0;
+				while (env[a] != NULL)
+				{
+					printf("%s\n", env[a]);
+					a++;
+				}
+			}
+			else if (access(argv[0], X_OK) == 0)
+			{
+				child_pid = fork();
+				if (child_pid == -1)
+				{
+					free(string);
+					exit(EXIT_FAILURE);
+				}
+				if (child_pid == 0)
+				{
+					if (execve(argv[0], argv, env) == -1)
+					{
+						perror("execve");
+						exit(EXIT_FAILURE);
+					}
+				}
+				else
+					wait(&status);
+			}
 			else
-				execute_relative_path(argv, env);
+			{
+				printf("%s: No such file or directory\n", av[0]);
+			}
 		}
-	}
 }

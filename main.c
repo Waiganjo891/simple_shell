@@ -1,16 +1,14 @@
 #include "Functions.h"
 /**
  * main - An integer
- * @argc: Another integer
- * @argv: A character
+ * @ac: Another integer
+ * @av: A character
  * @env: Another character
  * Return: Always (0)
  */
-int main(int argc, char **argv, char **env)
+int main(int ac, char **av, char **env)
 {
-	(void)argv;
-
-	if (argc == 1)
-		prompt(env);
+	if (ac == 1)
+		prompt(av, env);
 	return (0);
 }
