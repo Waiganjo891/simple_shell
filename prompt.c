@@ -28,12 +28,12 @@ void read_and_parse_input(char **argv, char **env)
 	}
 	j = 0;
 	argv[j] = strtok(string, " ");
-	if (argv[j] == NULL)
-	{
-		continue;
-	}
 	while (argv[j])
 	{
+		if (argv[j] == NULL)
+		{
+			continue;
+		}
 		argv[++j] = strtok(NULL, " ");
 	}
 	if (strcmp(argv[0], "exit") == 0)
