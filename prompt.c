@@ -9,7 +9,7 @@ void read_and_parse_input(char **argv, char **env)
 	char *string = NULL;
 	size_t n = 0;
 	ssize_t num_char;
-	int i,  j;
+	int i,  j, status;
 
 	if (isatty(STDIN_FILENO))
 		printf("Shell$ ");
@@ -34,8 +34,9 @@ void read_and_parse_input(char **argv, char **env)
 	}
 	if (strcmp(argv[0], "exit") == 0)
 	{
+		status = argv[1] ? atoi(argv[1]) : EXIT_SUCCESS;
 		free(string);
-		exit(EXIT_SUCCESS);
+		exit(status);
 	}
 	else if (strcmp(argv[0], "env") == 0)
 		handle_env(env);
