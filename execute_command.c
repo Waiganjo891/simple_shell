@@ -8,7 +8,7 @@ void execute_command(char **argv, char **env)
 {
 	int status, shlvl_value;
 	char *string = NULL, *shlvl;
-	char shlvl_str[1];
+	char shlvl_str[100];
 	pid_t child_pid;
 
 	child_pid = fork();
