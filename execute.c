@@ -26,14 +26,10 @@ void execute_absolute_path(char **argv, char **env)
 			}
 		}
 		else
-		{
 			wait(&status);
-		}
 	}
 	else
-	{
 		printf("%s: No such file or directory\n", argv[0]);
-	}
 }
 /**
  * execute_relative_path - A void
@@ -69,9 +65,7 @@ void execute_relative_path(char **argv, char **env)
 				}
 			}
 			else
-			{
 				wait(&status);
-			}
 			break;
 		}
 		directory = strtok(NULL, ":");
@@ -79,7 +73,5 @@ void execute_relative_path(char **argv, char **env)
 	free(path_copy);
 
 	if (!directory)
-	{
 		printf("%s: No such file or directory\n", argv[0]);
-	}
 }
