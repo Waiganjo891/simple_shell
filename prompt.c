@@ -7,7 +7,7 @@
 void prompt(char **av, char **env)
 {
 	char *string = NULL, *argv[FUNCTION_H];
-	int i, j status;
+	int i, j, status;
 	size_t n = 0;
 	ssize_t num_char;
 
