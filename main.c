@@ -2,13 +2,15 @@
 /**
  * main - An integer
  * @ac: Another integer
- * @av: A character
+ * @argv: A character
  * @env: Another character
  * Return: Always (0)
  */
-int main(int ac, char **av, char **env)
+int main(int ac, char **argv, char **env)
 {
+	(void)argv;
+
 	if (ac == 1)
-		prompt(av, env);
+		prompt(env);
 	return (0);
 }
