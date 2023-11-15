@@ -7,7 +7,7 @@
 void prompt(char **av, char **env)
 {
 	char *string = NULL, *argv[FUNCTION_H];
-	int i, j;
+	int i, j status;
 	size_t n = 0;
 	ssize_t num_char;
 
@@ -35,7 +35,11 @@ void prompt(char **av, char **env)
 		while (argv[j])
 			argv[++j] = strtok(NULL, " ");
 		if (strcmp(argv[0], "exit") == 0)
-			exit_command(argv);
+		{
+			status = argv[1] ? atoi(argv[1]) : EXIT_SUCCESS;
+			free(string);
+			exit(status);
+		}
 		else if (strcmp(argv[0], "env") == 0)
 			print_env(env);
 		else if (access(argv[0], X_OK) == 0)
