@@ -54,7 +54,7 @@ void execute_relative_path(char **argv, char **env)
 			if (child_pid == -1)
 			{
 				perror("fork");
-				exit(EXIT_FAILURE);
+				continue;
 			}
 			else if (child_pid == 0)
 			{

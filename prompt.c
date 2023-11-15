@@ -3,7 +3,6 @@
  * read_and_parse_input - A void
  * @argv: A character
  * @env: Another character
- * Return: Always value
  */
 void read_and_parse_input(char **argv, char **env)
 {
@@ -29,10 +28,10 @@ void read_and_parse_input(char **argv, char **env)
 	}
 	j = 0;
 	argv[j] = strtok(string, " ");
-	if (argv[j] == NULL)
-		return;
 	while (argv[j])
+	{
 		argv[++j] = strtok(NULL, " ");
+	}
 	if (strcmp(argv[0], "exit") == 0)
 	{
 		free(string);
