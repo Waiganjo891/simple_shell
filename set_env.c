@@ -1,36 +1,21 @@
 #include "Functions.h"
-extern char **environ;
-
-int _setenv(const char *name, const char *value, int overwrite)
+/**
+ * handle_setenv - A void
+ * @argv: A character
+ */
+void handle_setenv(char **argv)
 {
-	char **env = environ;
-	char *this_env;
-	char *new_env;
-	int found = 0;
-
-	while (*env != NULL)
+	if (argv[2] == NULL)
 	{
-		this_env = *env;
-		if (strncmp(this_env, name, strlen(name)) == 0 && this_env[strlen(name)] == '=')
+		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+	}
+	else
+	{
+		if (setenv(argv[1], argv[2], 1) == -1)
 		{
-			found = 1;
-			if (overwrite)
-			{
-				new_env = malloc(strlen(name) + strlen(value) + 2);
-				sprintf(new_env, "%s=%s", name, value);
-				*env = new_env;
-			}
-			break;
+			perror("setenv");
 		}
-		env++;
 	}
-	if (!found && overwrite)
-	{
-		new_env = malloc(strlen(name) + strlen(value) + 2);
-		sprintf(new_env, "%s=%s", name, value);
-		*env = new_env;
-	}
-	return 0;
 }
 /**
  * handle_unsetenv - A void
