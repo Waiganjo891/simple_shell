@@ -5,9 +5,8 @@
  */
 void handle_env(char **env)
 {
-	unsigned int i;
+	int i = 0;
 
-	i = 0;
 	while (env[i] != NULL)
 	{
 		printf("%s\n", env[i]);
