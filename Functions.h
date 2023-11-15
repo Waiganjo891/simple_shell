@@ -8,5 +8,8 @@
 #include <string.h>
 
 void prompt(char **av, char **env);
+void print_env(char **env);
+void execute_command(char **argv, char **env);
+void exit_command(char **argv);
 
 #endif
