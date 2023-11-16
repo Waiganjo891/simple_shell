@@ -9,10 +9,6 @@ void tokenize_input(char *string, char *argv[])
 	int j = 0;
 
 	argv[j] = strtok(string, " ");
-	if (argv[j] == NULL)
-	{
-		return;
-	}
 	while (argv[j])
 	{
 		argv[++j] = strtok(NULL, " ");
