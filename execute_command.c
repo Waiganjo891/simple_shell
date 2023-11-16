@@ -6,9 +6,8 @@
  */
 void execute_command(char **argv, char **env)
 {
-	int status, shlvl_value;
-	char *string = NULL, *shlvl;
-	char shlvl_str[100];
+	int status;
+	char *string = NULL;
 	pid_t child_pid;
 
 	child_pid = fork();
@@ -19,13 +18,6 @@ void execute_command(char **argv, char **env)
 	}
 	if (child_pid == 0)
 	{
-		if (strcmp(argv[0], "bash") == 0 || strcmp(argv[0], "sh") == 0)
-		{
-			shlvl = getenv("SHLVL");
-			shlvl_value = shlvl ? atoi(shlvl) : 0;
-			sprintf(shlvl_str, "%d", shlvl_value + 1);
-			setenv("SHLVL", shlvl_str, 1);
-		}
 		if (execve(argv[0], argv, env) == -1)
 		{
 			perror("execve");
