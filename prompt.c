@@ -1,5 +1,25 @@
 #include "Functions.h"
 /**
+ * tokenize_input - A void
+ * @string: A character
+ * @argv: Another character
+ */
+void tokenize_input(char *string, char *argv[])
+{
+	int j = 0;
+
+	argv[j] = strtok(string, " ");
+	if (argv[j] == NULL)
+	{
+		return;
+	}
+	while (argv[j])
+	{
+		argv[++j] = strtok(NULL, " ");
+	}
+}
+
+/**
  * prompt - A void
  * @av: A character
  * @env: Another character
@@ -7,7 +27,7 @@
 void prompt(char **av, char **env)
 {
 	char *string = NULL, *argv[FUNCTION_H];
-	int i, j, status;
+	int i, status;
 	size_t n = 0;
 	ssize_t num_char;
 
@@ -28,12 +48,7 @@ void prompt(char **av, char **env)
 				string[i] = 0;
 			i++;
 		}
-		j = 0;
-		argv[j] = strtok(string, " ");
-		if (argv[j] == NULL)
-			continue;
-		while (argv[j])
-			argv[++j] = strtok(NULL, " ");
+		tokenize_input(string, argv);
 		if (strcmp(argv[0], "exit") == 0)
 		{
 			status = argv[1] ? atoi(argv[1]) : EXIT_SUCCESS;

@@ -10,5 +10,6 @@
 void prompt(char **av, char **env);
 void print_env(char **env);
 void execute_command(char **argv, char **env);
+void tokenize_input(char *string, char *argv[]);
 
 #endif
