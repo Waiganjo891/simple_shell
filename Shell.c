@@ -16,7 +16,6 @@ int main(void)
 	printf("$ ");
 	fgets(command, sizeof(command), stdin);
 
-	command[strcspn(command, "\n")] = 0;
 	word = strtok(command, " ");
 	while(word != NULL)
 	{
