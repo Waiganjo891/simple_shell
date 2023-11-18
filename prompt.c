@@ -11,21 +11,27 @@ int main(void)
 	char *env_args[] = {"/bin/bash", (char *)0};
 	int i = 0;
 
-	printf("$ ");
-	fgets(command, sizeof(command), stdin);
-	command[strcspn(command, "\n")] = 0;
-	word = strtok(command, " ");
-	while(word != NULL)
+	while (1)
 	{
-		args[i] = word;
-		word = strtok(NULL, " ");
-		i++;
-	}
-	args[i] = NULL;
-	if(execve(args[0], args, env_args) == -1)
-	{
-		perror("Error executing command");
-		return (1);
+		printf("$ ");
+		if (fgets(command, sizeof(command), stdin) == NULL)
+		{
+			break;
+		}
+		command[strcspn(command, "\n")] = 0;
+		word = strtok(command, " ");
+		while (word != NULL)
+		{
+			args[i] = word;
+			word = strtok(NULL, " ");
+			i++;
+		}
+		args[i] = NULL;
+		if (execve(args[0], args, env_args) == -1)
+		{
+			perror("Error executing command");
+			return (1);
+		}
 	}
 	return (0);
 }
