@@ -9,6 +9,7 @@ int main(void)
 	char command[1024];
 	char *word;
 	char *args[100];
+	pid_t pid;
 	char *env_args[] = {"/bin/bash", (char *)0};
 	int i = 0;
 
@@ -24,7 +25,7 @@ int main(void)
 		i++;
 	}
 	args[i] = NULL;
-	pid_t pid = fork();
+	pid = fork();
 
 	if (pid == -1)
 	{
