@@ -23,7 +23,6 @@ int main(void)
 	while (word != NULL)
 	{
 		args[i] = word;
-		printf("%s\n", word);
 		word = strtok(NULL, " ");
 		i++;
 	}
