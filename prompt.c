@@ -3,6 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 int main(void)
 {
@@ -11,6 +13,7 @@ int main(void)
 	char *args[100];
 	pid_t pid;
 	char *env_args[] = {"/bin/bash", (char *)0};
+	struct stat file_status;
 	int i = 0;
 
 	printf("$ ");
@@ -34,6 +37,11 @@ int main(void)
 	}
 	else if (pid == 0)
 	{
+		if (stat(args[0], &file_status) == -1)
+		{
+			perror("Error getting file status");
+			return (1);
+		}
 		if (execve(args[0], args, env_args) == -1)
 		{
 			perror("Error executing command");
