@@ -16,7 +16,7 @@ int main(void)
 	fgets(command, sizeof(command), stdin);
 	command[strcspn(command, "\n")] = 0;
 	word = strtok(command, " ");
-	while(word != NULL)
+	while (word != NULL)
 	{
 		args[i] = word;
 		printf("%s\n", word);
@@ -24,10 +24,24 @@ int main(void)
 		i++;
 	}
 	args[i] = NULL;
-	if(execve(args[0], args, env_args) == -1)
+	pid_t pid = fork();
+
+	if (pid == -1)
 	{
-		perror("Error executing command");
+		perror("Error forking process");
 		return (1);
+	}
+	else if (pid == 0)
+	{
+		if (execve(args[0], args, env_args) == -1)
+		{
+			perror("Error executing command");
+			return (1);
+		}
+	}
+	else
+	{
+		wait(NULL);
 	}
 	return (0);
 }
