@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+/**
+ * main - An integer
+ * Return: Always (0);
+ */
 int main(void)
 {
 	char command[1024];
