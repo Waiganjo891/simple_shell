@@ -4,10 +4,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-/**
- * main - An integer
- * Return: Always (0)
- */
+
 int main(void)
 {
 	char command[1024];
@@ -29,7 +26,7 @@ int main(void)
 		word = strtok(command, " ");
 		while (word != NULL)
 		{
-			args[i] = word;
+			args[i] = strdup(word);
 			word = strtok(NULL, " ");
 			i++;
 		}
@@ -47,6 +44,11 @@ int main(void)
 				perror("Error executing command");
 				exit(1);
 			}
+			for (int j = 0; args[j] != NULL; j++)
+			{
+				free(args[j]);
+			}
+			exit(0);
 		}
 		else
 		{
@@ -55,6 +57,10 @@ int main(void)
 				perror("Error waiting for child process");
 				return (1);
 			}
+		}
+		for (int j = 0; args[j] != NULL; j++)
+		{
+			free(args[j]);
 		}
 		i = 0;
 	}
