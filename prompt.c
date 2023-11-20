@@ -12,7 +12,7 @@ int main(void)
 	char *args[100];
 	pid_t pid;
 	char *env_args[] = {"/bin/bash", (char *)0};
-	int status;
+	int status, j;
 	int i = 0;
 
 	while (1)
@@ -44,9 +44,10 @@ int main(void)
 				perror("Error executing command");
 				exit(1);
 			}
-			for (int j = 0; args[j] != NULL; j++)
+			while (args[j] != NULL)
 			{
 				free(args[j]);
+				j++;
 			}
 			exit(0);
 		}
@@ -58,9 +59,10 @@ int main(void)
 				return (1);
 			}
 		}
-		for (int j = 0; args[j] != NULL; j++)
+		while (args[j] != NULL)
 		{
 			free(args[j]);
+			j++;
 		}
 		i = 0;
 	}
