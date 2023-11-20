@@ -22,6 +22,8 @@ int main(void)
 		if (fgets(command, sizeof(command), stdin) == NULL)
 			break;
 		command[strcspn(command, "\n")] = 0;
+		if (strlen(command) == 0)
+			continue;
 		word = strtok(command, " ");
 		while (word != NULL)
 		{
