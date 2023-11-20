@@ -17,7 +17,8 @@ int main(void)
 
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
 		if (fgets(command, sizeof(command), stdin) == NULL)
 		{
 			break;
