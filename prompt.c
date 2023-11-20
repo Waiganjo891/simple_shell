@@ -10,19 +10,17 @@
  */
 int main(void)
 {
-	char command[1024];
-	char *word, *args[100];
+	char command[1024], *word, *args[1024];
 	pid_t child_pid;
 	char *env_args[] = {"/bin/bash", (char *)0};
 	int i = 0, status;
 
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
 		if (fgets(command, sizeof(command), stdin) == NULL)
-		{
 			break;
-		}
 		command[strcspn(command, "\n")] = 0;
 		word = strtok(command, " ");
 		while (word != NULL)
@@ -42,11 +40,13 @@ int main(void)
 		{
 			if (execve(args[0], args, env_args) == -1)
 			{
-				perror("Error executing command");
+				perror("Error: ");
 				return (1);
 			}
 		}
 		else
 			wait(&status);
+		i = 0;
+	}
 	return (0);
 }
