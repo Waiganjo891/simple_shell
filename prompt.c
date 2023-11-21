@@ -28,6 +28,11 @@ int main(void)
 		{
 			continue;
 		}
+		if (strcmp(command, "exit") == 0)
+		{
+			break;
+		}
+		else if 
 		word = strtok(command, " ");
 		while (word != NULL)
 		{
@@ -37,7 +42,7 @@ int main(void)
 		}
 		args[i] = NULL;
 		child_pid = fork();
-		if (child_pid == -1)
+		else if (child_pid == -1)
 		{
 			perror("Error:");
 			return (1);
