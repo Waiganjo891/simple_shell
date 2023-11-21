@@ -28,7 +28,7 @@ int main(void)
 		{
 			continue;
 		}
-		else if (strcmp(command, "exit") == 0)
+		if (strcmp(command, "exit") == 0)
 		{
 			break;
 		}
