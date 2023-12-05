@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "functions.h"
 /**
  * main - An integer
  * Return: Always (0)
@@ -48,9 +43,18 @@ int main(void)
 		}
 		else if (child_pid == 0)
 		{
-			if (execve(args[0], args, env_args) == -1)
+			char *command_path = get_command_path(args[0]);
+			if (command_path != NULL)
 			{
-				perror("Error: ");
+				if (execve(args[0], args, env_args) == -1)
+				{
+					perror("Error: ");
+					return (1);
+				}
+			}
+			else
+			{
+				printf("Command not found: %s\n", args[0]);
 				return (1);
 			}
 		}
